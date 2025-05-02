@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Three.js GLB Model Viewer</title>
+    <title>Three.js GLB Model Viewer</title>
     <style>
         body {
             margin: 0;
@@ -110,8 +110,8 @@
             document.getElementById('loading').textContent = `Error loading model: ${url}`;
         };
 
-        // Hard-coded model URL
-        const modelUrl = 'https://threejs.org/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf';
+        // Hard-coded model URL (GLB file)
+        const modelUrl = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb';
 
         // Load the model
         gltfLoader.load(
@@ -145,6 +145,9 @@
                     const action = mixer.clipAction(gltf.animations[0]);
                     action.play();
                 }
+                
+                // Adjust camera if needed
+                camera.lookAt(model.position);
             },
             function(xhr) {
                 const percent = Math.round((xhr.loaded / xhr.total) * 100);
@@ -171,11 +174,6 @@
             
             if (mixer) {
                 mixer.update(clock.getDelta());
-            }
-            
-            // Slowly rotate the model for better viewing
-            if (model) {
-                // model.rotation.y += 0.005;
             }
             
             renderer.render(scene, camera);
